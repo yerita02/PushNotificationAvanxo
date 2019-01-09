@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "821996846887",
-    "firebase_url": "https://proyectoavanxo.firebaseio.com",
-    "project_id": "proyectoavanxo",
-    "storage_bucket": "proyectoavanxo.appspot.com"
+    "project_number": "272732178929",
+    "firebase_url": "https://pushnotificationavanxo.firebaseio.com",
+    "project_id": "pushnotificationavanxo",
+    "storage_bucket": "pushnotificationavanxo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:821996846887:android:cbf61a7fb82b0f4a",
+        "mobilesdk_app_id": "1:272732178929:android:ad1b458c6632b942",
         "android_client_info": {
           "package_name": "avanxo.com.pushnotificationavanxo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "821996846887-m0jfbbj6k5sj84ilvkjri6oq6irp3uhk.apps.googleusercontent.com",
+          "client_id": "272732178929-uhfj94ju4bcbiiegeu5oce8tmnqj00n6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "avanxo.com.pushnotificationavanxo",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "821996846887-b0enp8d96ir4ocgherhmab94os0geeek.apps.googleusercontent.com",
+          "client_id": "272732178929-u50thtcub4nh2ga2brv9i8d7sanl6kar.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBXOjIryIy6aqJCNJKoYjmpbOAt1drG-6A"
+          "current_key": "AIzaSyApZcO4AykG9xMI-IZdxsbvRXzi2UGTG7c"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "821996846887-b0enp8d96ir4ocgherhmab94os0geeek.apps.googleusercontent.com",
+              "client_id": "272732178929-u50thtcub4nh2ga2brv9i8d7sanl6kar.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
