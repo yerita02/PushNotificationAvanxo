@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PushNotificationAvanxo</string>
+    <string name="action_settings">Settings</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">News</string>
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="log_token">Log Token</string>
+    <string name="subscribe_to_news">Subscribe To News</string>
+</resources>
