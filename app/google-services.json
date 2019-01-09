@@ -1,55 +1,43 @@
 {
-  "project_info": {
-    "project_number": "272732178929",
-    "firebase_url": "https://pushnotificationavanxo.firebaseio.com",
-    "project_id": "pushnotificationavanxo",
-    "storage_bucket": "pushnotificationavanxo.appspot.com"
-  },
-  "client": [
     {
-      "client_info": {
-        "mobilesdk_app_id": "1:272732178929:android:ad1b458c6632b942",
-        "android_client_info": {
-          "package_name": "avanxo.com.pushnotificationavanxo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "272732178929-uhfj94ju4bcbiiegeu5oce8tmnqj00n6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "avanxo.com.pushnotificationavanxo",
-            "certificate_hash": "6ae6c3397e859111bf4199e8e950d7d31185f29f"
-          }
-        },
-        {
-          "client_id": "272732178929-u50thtcub4nh2ga2brv9i8d7sanl6kar.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyApZcO4AykG9xMI-IZdxsbvRXzi2UGTG7c"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "272732178929-u50thtcub4nh2ga2brv9i8d7sanl6kar.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    }
-  ],
-  "configuration_version": "1"
+ "project_info": {
+   "project_number": "272732178929",
+   "firebase_url": "https://pushnotificationavanxo.firebaseio.com",
+   "project_id": "pushnotificationavanxo",
+   "storage_bucket": "pushnotificationavanxo.appspot.com"
+ },
+ "client": [
+   {
+     "client_info": {
+       "mobilesdk_app_id": "1:272732178929:android:ad1b458c6632b942",
+       "android_client_info": {
+         "package_name": "avanxo.com.pushnotificationavanxo"
+       }
+     },
+     "oauth_client": [
+       {
+         "client_id": "272732178929-u50thtcub4nh2ga2brv9i8d7sanl6kar.apps.googleusercontent.com",
+         "client_type": 3
+       }
+     ],
+     "api_key": [
+       {
+         "current_key": "AIzaSyApZcO4AykG9xMI-IZdxsbvRXzi2UGTG7c"
+       }
+     ],
+     "services": {
+       "analytics_service": {
+         "status": 1
+       },
+       "appinvite_service": {
+         "status": 1,
+         "other_platform_oauth_client": []
+       },
+       "ads_service": {
+         "status": 2
+       }
+     }
+   }
+ ],
+ "configuration_version": "1"
 }
