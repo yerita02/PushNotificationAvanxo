@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "821996846887",
+    "firebase_url": "https://proyectoavanxo.firebaseio.com",
+    "project_id": "proyectoavanxo",
+    "storage_bucket": "proyectoavanxo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821996846887:android:cbf61a7fb82b0f4a",
+        "android_client_info": {
+          "package_name": "avanxo.com.pushnotificationavanxo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821996846887-m0jfbbj6k5sj84ilvkjri6oq6irp3uhk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "avanxo.com.pushnotificationavanxo",
+            "certificate_hash": "6ae6c3397e859111bf4199e8e950d7d31185f29f"
+          }
+        },
+        {
+          "client_id": "821996846887-b0enp8d96ir4ocgherhmab94os0geeek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXOjIryIy6aqJCNJKoYjmpbOAt1drG-6A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821996846887-b0enp8d96ir4ocgherhmab94os0geeek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
