@@ -40,17 +40,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d(TAG, "remoteMessage: " + remoteMessage.toString());
+
         Intent intent =  new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent =  PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle("FCM Notification");
-        notificationBuilder.setContentText(remoteMessage.getNotification().getBody());
+        //
+        if (remoteMessage.getNotification() != null) {
+            notificationBuilder.setContentText(remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }else{
+            // obtenerlo de getData();
+            notificationBuilder.setContentTitle(remoteMessage.getData().get("title"));
+            notificationBuilder.setContentText(remoteMessage.getData().get("alert"));
+        }
+        //
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
+
+
 
         // TODO(developer): Handle FCM messages here.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -61,9 +74,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 handleNow();
             }
-        }
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
     }
     private void scheduleJob() {
