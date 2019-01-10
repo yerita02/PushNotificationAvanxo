@@ -10,8 +10,15 @@ import com.salesforce.marketingcloud.InitializationStatus;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.notifications.NotificationCustomizationOptions;
+import com.salesforce.marketingcloud.registration.Registration;
+import com.salesforce.marketingcloud.registration.RegistrationManager;
+import com.google.android.gms.common.GoogleApiAvailability;
 
-public class MyApplication extends Application {
+import java.util.Locale;
+
+public class MyApplication extends Application implements MarketingCloudSdk.InitializationListener,
+        RegistrationManager.RegistrationEventListener
+        {
     private static final String TAG = "MyApplication";
     @Override public void onCreate() {
 
@@ -37,4 +44,29 @@ public class MyApplication extends Application {
             }
         });
     }
-}
+
+            @Override
+            public void complete(InitializationStatus status) {
+                if (!status.isUsable()) {
+                    Log.e(TAG, "Marketing Cloud Sdk init failed.", status.unrecoverableException());
+                } else {
+                    MarketingCloudSdk cloudSdk = MarketingCloudSdk.getInstance();
+                    cloudSdk.getAnalyticsManager().trackPageView("data://ReadyAimFireCompleted", "Marketing Cloud SDK Initialization Complete");
+
+                    if (status.locationsError()) {
+                        final GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+                        Log.i(TAG, String.format(Locale.ENGLISH, "Google Play Services Availability: %s", googleApiAvailability.getErrorString(status.playServicesStatus())));
+                        if (googleApiAvailability.isUserResolvableError(status.playServicesStatus())) {
+                            googleApiAvailability.showErrorNotification(MyApplication.this, status.playServicesStatus());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onRegistrationReceived(@NonNull Registration registration) {
+                MarketingCloudSdk.getInstance().getAnalyticsManager().trackPageView("data://RegistrationEvent", "Registration Event Completed");
+                Log.d(TAG, registration.toString());
+                Log.d(TAG, String.format("Last sent: %1$d", System.currentTimeMillis()));
+            }
+        }
