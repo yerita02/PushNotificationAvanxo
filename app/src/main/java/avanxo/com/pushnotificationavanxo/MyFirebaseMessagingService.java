@@ -61,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         //
         notificationBuilder.setAutoCancel(true);
-        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setSmallIcon(R.drawable.avx_favicon);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
@@ -110,7 +110,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 new NotificationCompat.Builder(this, channelId)
 
                         .setContentTitle(RespMKTCL.get("title"))
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.avx_favicon)
                         .setContentText(RespMKTCL.get("alert"))
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)

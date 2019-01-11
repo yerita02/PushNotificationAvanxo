@@ -77,10 +77,8 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
 
             //personalización
             .setNotificationCustomizationOptions(
-                    NotificationCustomizationOptions.create(R.drawable.ic_launcher_background)
+                    NotificationCustomizationOptions.create(R.drawable.avx_favicon)
             )
-            // Other configuration options
-            .setNotificationCustomizationOptions(NotificationCustomizationOptions.create(R.drawable.ic_stat_app_logo_transparent))
             .build(this), this);
 
         MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
