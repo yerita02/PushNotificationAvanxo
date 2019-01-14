@@ -8,4 +8,5 @@
     <string name="log_token">Log Token</string>
     <string name="subscribe_to_news">Subscribe To News</string>
     <string name="google_maps_key">AIzaSyDcXRcGa0YhCcp7kyppI623GPSQG75Eegw</string>
+    <string name="readme_remote_url">https://github.com/yerita02/PushNotificationAvanxo/</string>
 </resources>

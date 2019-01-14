@@ -1,13 +1,17 @@
 package avanxo.com.pushnotificationavanxo;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 
 import android.support.v4.app.NotificationCompat;
@@ -41,12 +45,15 @@ import java.util.TimeZone;
 import avanxo.com.pushnotificationavanxo.data.MCGeofence;
 import avanxo.com.pushnotificationavanxo.data.MCLocationManager;
 import avanxo.com.pushnotificationavanxo.data.MCBeacon;
+import avanxo.com.pushnotificationavanxo.utils.ActivityPermissionDelegate;
 
 public class MyApplication extends Application implements MarketingCloudSdk.InitializationListener,
         RegistrationManager.RegistrationEventListener, NotificationManager.NotificationBuilder,
         RegionMessageManager.GeofenceMessageResponseListener, RegionMessageManager.ProximityMessageResponseListener{
 
     private static final String TAG = "MyApplication";
+
+    private ActivityPermissionDelegate permissionDelegate;
 
     /**
      * Set to true to show how geo fencing works within the SDK.
@@ -57,6 +64,12 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
      * Set to true to show how beacons messages works within the SDK.
      */
     public static final boolean PROXIMITY_ENABLED = true;
+
+    /**
+     * Set to true to show how Salesforce analytics will save statistics for
+     * how your customers use the app.
+     */
+    public static final boolean ANALYTICS_ENABLED = true;
 
     public static final SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
     private SharedPreferences sharedPreferences;
@@ -69,7 +82,8 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
         return lastBeaconReceivedEventDatetime;
     }
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
         String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
         Log.e(TAG, "onCreate() deviceId: " + deviceId);
@@ -79,29 +93,32 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
         MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
 
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
-            //Autenticación
-            .setApplicationId("8b59a9b1-faff-4a34-8c41-bcbbe4510abe") // ENTER YOUR MARKETING CLOUD APPLICATION ID HERE
-            .setAccessToken("v24mfftrbgcnwpq3pwrqpxab") // ENTER YOUR MARKETING CLOUD ACCESS TOKEN HERE
-            .setSenderId("272732178929") // ENTER YOUR GOOGLE SENDER ID HERE
-            .setMarketingCloudServerUrl("https://mcf05xpz3c3xhlmnhrcwdr-ct5m4.device.marketingcloudapis.com/")
-            .setMid("7276982")
+                //Autenticación
+                .setApplicationId("8b59a9b1-faff-4a34-8c41-bcbbe4510abe") // ENTER YOUR MARKETING CLOUD APPLICATION ID HERE
+                .setAccessToken("v24mfftrbgcnwpq3pwrqpxab") // ENTER YOUR MARKETING CLOUD ACCESS TOKEN HERE
+                .setSenderId("272732178929") // ENTER YOUR GOOGLE SENDER ID HERE
+                .setMarketingCloudServerUrl("https://mcf05xpz3c3xhlmnhrcwdr-ct5m4.device.marketingcloudapis.com/")
+                .setMid("7276982")
 
-            //Habilitando otro tipo de comunicaciones
-            .setGeofencingEnabled(LOCATION_ENABLED)
-            .setProximityEnabled(PROXIMITY_ENABLED)
+                //Habilitando otro tipo de comunicaciones
+                .setAnalyticsEnabled(ANALYTICS_ENABLED)
+                .setGeofencingEnabled(LOCATION_ENABLED)
+                .setProximityEnabled(PROXIMITY_ENABLED)
 
-            //personalización
-            .setNotificationCustomizationOptions(
-                    NotificationCustomizationOptions.create(R.drawable.avx_favicon)
-            )
-            .build(this), this);
+                //personalización
+                .setNotificationCustomizationOptions(
+                        NotificationCustomizationOptions.create(R.drawable.avx_favicon)
+                )
+                .build(this), this);
 
         MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
             @Override
             public void ready(MarketingCloudSdk sdk) {
                 sdk.getRegistrationManager().registerForRegistrationEvents(MyApplication.this);
                 sdk.getRegionMessageManager().registerGeofenceMessageResponseListener(MyApplication.this);
-                //sdk.getRegionMessageManager().registerProximityMessageResponseListener(MyApplication.this);
+                sdk.getRegionMessageManager().registerProximityMessageResponseListener(MyApplication.this);
+                sdk.getRegionMessageManager().enableProximityMessaging();
+                sdk.getRegionMessageManager().enableGeofenceMessaging();
             }
         });
     }
@@ -174,6 +191,7 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
         MarketingCloudSdk.getInstance().getAnalyticsManager().trackPageView("data://GeofenceResponseEvent", "Geofence Response Event Received");
         List<Region> regions = response.fences();
         for (Region r : regions) {
+            Log.d(TAG, "MCGeofence.newLocation" + r.name());
             MCGeofence newLocation = new MCGeofence();
             LatLng latLng = new LatLng(r.center().latitude(), r.center().longitude());
             newLocation.setCoordenates(latLng);
@@ -207,4 +225,5 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
             editor.putString("lastBeaconReceivedEventDatetime", lastBeaconReceivedEventDatetime);
         }
     }
+
 }
