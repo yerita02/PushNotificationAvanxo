@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
+
 
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -37,10 +40,11 @@ import java.util.TimeZone;
 
 import avanxo.com.pushnotificationavanxo.data.MCGeofence;
 import avanxo.com.pushnotificationavanxo.data.MCLocationManager;
+import avanxo.com.pushnotificationavanxo.data.MCBeacon;
 
 public class MyApplication extends Application implements MarketingCloudSdk.InitializationListener,
         RegistrationManager.RegistrationEventListener, NotificationManager.NotificationBuilder,
-        RegionMessageManager.GeofenceMessageResponseListener{
+        RegionMessageManager.GeofenceMessageResponseListener, RegionMessageManager.ProximityMessageResponseListener{
 
     private static final String TAG = "MyApplication";
 
@@ -52,7 +56,18 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
     /**
      * Set to true to show how beacons messages works within the SDK.
      */
-    public static final boolean PROXIMITY_ENABLED = false;
+    public static final boolean PROXIMITY_ENABLED = true;
+
+    public static final SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+    private SharedPreferences sharedPreferences;
+    private String lastBeaconReceivedEventDatetime = "";
+
+    public String getLastBeaconReceivedEventDatetime() {
+        if (TextUtils.isEmpty(lastBeaconReceivedEventDatetime)) {
+            lastBeaconReceivedEventDatetime = sharedPreferences.getString("lastBeaconReceivedEventDatetime", "Last Event Datetime Not Available");
+        }
+        return lastBeaconReceivedEventDatetime;
+    }
 
     @Override public void onCreate() {
         super.onCreate();
@@ -165,6 +180,31 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
             newLocation.setRadius(r.radius());
             newLocation.setName(r.name());
             MCLocationManager.getInstance().getGeofences().add(newLocation);
+        }
+    }
+    /**
+     * Listens for a ProximityMessage responses.
+     * <p/>
+     * This event retrieves the data related to beacon messages and saves them
+     * as a list of MCBeacon in MCLocationManager.
+     * <p/>
+     */
+
+    @Override
+    public void onProximityMessageResponse(ProximityMessageResponse response) {
+        MarketingCloudSdk.getInstance().getAnalyticsManager().trackPageView("data://BeaconResponse", "Beacon Response Event Received");
+        List<Region> regions = response.beacons();
+        for (Region r : regions) {
+            MCBeacon newBeacon = new MCBeacon();
+            LatLng latLng = new LatLng(r.center().latitude(), r.center().longitude());
+            newBeacon.setCoordenates(latLng);
+            newBeacon.setRadius(getResources().getInteger(R.integer.beacon_radius));
+            newBeacon.setName(r.name());
+            newBeacon.setGuid(r.proximityUuid());
+            MCLocationManager.getInstance().getBeacons().add(newBeacon);
+            lastBeaconReceivedEventDatetime = timestampFormat.format(new Date(System.currentTimeMillis()));
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("lastBeaconReceivedEventDatetime", lastBeaconReceivedEventDatetime);
         }
     }
 }
