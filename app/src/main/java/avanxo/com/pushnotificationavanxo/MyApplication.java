@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
@@ -47,13 +48,16 @@ import avanxo.com.pushnotificationavanxo.data.MCLocationManager;
 import avanxo.com.pushnotificationavanxo.data.MCBeacon;
 import avanxo.com.pushnotificationavanxo.utils.ActivityPermissionDelegate;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class MyApplication extends Application implements MarketingCloudSdk.InitializationListener,
         RegistrationManager.RegistrationEventListener, NotificationManager.NotificationBuilder,
         RegionMessageManager.GeofenceMessageResponseListener, RegionMessageManager.ProximityMessageResponseListener{
 
     private static final String TAG = "MyApplication";
 
-    private ActivityPermissionDelegate permissionDelegate;
+
 
     /**
      * Set to true to show how geo fencing works within the SDK.
@@ -117,8 +121,24 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
                 sdk.getRegistrationManager().registerForRegistrationEvents(MyApplication.this);
                 sdk.getRegionMessageManager().registerGeofenceMessageResponseListener(MyApplication.this);
                 sdk.getRegionMessageManager().registerProximityMessageResponseListener(MyApplication.this);
-                sdk.getRegionMessageManager().enableProximityMessaging();
-                sdk.getRegionMessageManager().enableGeofenceMessaging();
+
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    sdk.getRegionMessageManager().enableGeofenceMessaging();
+                    sdk.getRegionMessageManager().enableProximityMessaging();
+                }
+
+                // Set contact key
+                // using device Id like unique value
+                String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+
+                sdk.getRegistrationManager()
+                    .edit()
+                    .setContactKey(deviceId)
+                    .commit();
+
+                Log.e(TAG, "setContactKey() new value: " + sdk.getRegistrationManager().getContactKey());
+
+                Log.e(TAG, "getDeviceId(): " + sdk.getRegistrationManager().getDeviceId());
             }
         });
     }
