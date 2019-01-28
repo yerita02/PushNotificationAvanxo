@@ -132,9 +132,28 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
                 String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
 
                 sdk.getRegistrationManager()
-                    .edit()
-                    .setContactKey(deviceId)
-                    .commit();
+                        .edit()
+                        .setContactKey(deviceId)
+                        .commit();
+                sdk.getRegistrationManager()
+                        .edit()
+                        .setAttribute("PruebaPush_Version","Version 1-Prueba")
+                        .commit();
+                sdk.getRegistrationManager()
+                        .edit()
+                        .setAttribute("PruebaPush_Limpieza","ValorNosevera")
+                        .clearAttribute("PruebaPush_Limpieza")
+                        .commit();
+                sdk.getRegistrationManager()
+                        .edit()
+                        .addTags("AVR_tag1","AVR_tag2","AVR_tag3")
+                        .removeTags("AVR_tag2")
+                        .commit();
+
+
+                Log.e(TAG, "Attributes() new value: " + sdk.getRegistrationManager().getAttributes());
+
+                Log.e(TAG, "Tags() new value: " + sdk.getRegistrationManager().getTags());
 
                 Log.e(TAG, "setContactKey() new value: " + sdk.getRegistrationManager().getContactKey());
 
