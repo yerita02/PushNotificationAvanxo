@@ -98,11 +98,11 @@ public class MyApplication extends Application implements MarketingCloudSdk.Init
 
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
                 //Autenticación
-                .setApplicationId("8b59a9b1-faff-4a34-8c41-bcbbe4510abe") // ENTER YOUR MARKETING CLOUD APPLICATION ID HERE
-                .setAccessToken("v24mfftrbgcnwpq3pwrqpxab") // ENTER YOUR MARKETING CLOUD ACCESS TOKEN HERE
+                .setApplicationId("0e32f08e-c8a2-4f14-ab16-3f584d947044") // ENTER YOUR MARKETING CLOUD APPLICATION ID HERE
+                .setAccessToken("yrdd6fahnah4ut9wv9kgrug8") // ENTER YOUR MARKETING CLOUD ACCESS TOKEN HERE
                 .setSenderId("272732178929") // ENTER YOUR GOOGLE SENDER ID HERE
                 .setMarketingCloudServerUrl("https://mcf05xpz3c3xhlmnhrcwdr-ct5m4.device.marketingcloudapis.com/")
-                .setMid("7276982")
+                .setMid("7310197")
 
                 //Habilitando otro tipo de comunicaciones
                 .setAnalyticsEnabled(ANALYTICS_ENABLED)
